@@ -1,0 +1,15 @@
+<div mat-dialog-content>
+  <h2>Enter Meteostat API Key: </h2>
+    <div class="row">
+      <mat-form-field appearance="fill">
+        <mat-label>API Key: </mat-label>
+        <input
+          matInput
+          name="api-key"
+          type="text"
+          [value]= key
+        />
+    </mat-form-field>
+  </div>
+  <button mat-raised-button (click)="saveAuthorization()">Save</button>
+</div>

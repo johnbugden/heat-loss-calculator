@@ -1,0 +1,21 @@
+<div mat-dialog-content>
+  <h2>Select a Station: </h2>
+  <mat-selection-list #station *ngIf="stations" [multiple]="false">
+    <!-- <mat-list-option>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Region</th>
+      <th>Timezone</th>
+    </tr> -->
+
+    <mat-list-option *ngFor="let station of stations.data" (click)="selectStation(station)">
+        <div class="row">
+          <span class="col-sm-3">{{ station.id }}</span>
+            <span class="col-sm-3">{{ station.name.en }}</span>
+              <span class="col-sm-3">{{ station.region }}</span>
+                <span class="col-sm-3">{{ station.timezone }}</span>
+        </div>
+    </mat-list-option>
+  </mat-selection-list>
+  <button mat-raised-button (click)="saveStation()">Save Selected Station</button>
+</div>

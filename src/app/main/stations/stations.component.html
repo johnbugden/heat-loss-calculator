@@ -1,0 +1,27 @@
+<h2>Authorize Using Meteostat API Key</h2>
+<p>Currently Authorized: {{stations.meteostat != undefined}}</p>
+<button mat-raised-button class="col-sm-3" (click)="stations.authorizeMeteostat()">Enter API Key</button>
+<h2>Currently Selected Station:</h2>
+<div *ngIf="stations.selectedStation; else nostation">
+  <p>ID: {{ stations.selectedStation.id }}</p>
+  <p>Name: {{ stations.selectedStation.name.en }}</p>
+  <p>Region: {{ stations.selectedStation.region }}</p>
+  <p>Timezone: {{ stations.selectedStation.timezone }}</p>
+</div>
+<ng-template #nostation>None selected</ng-template>
+<hr />
+<div>
+  <h2>Find a Weather Station Near You</h2>
+  <form class="row" [formGroup]="stationsForm" (ngSubmit)="submitStationsForm()">
+    <mat-form-field class="col-sm-3" appearance="fill">
+      <mat-label>Location: </mat-label>
+      <input
+        matInput
+        name="location"
+        type="text"
+        formControlName="location"
+      />
+    </mat-form-field>
+    <button mat-raised-button class="col-sm-3" type="submit">Search</button>
+  </form>
+</div>

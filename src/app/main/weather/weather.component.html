@@ -1,0 +1,82 @@
+<div>
+  <h2>Download Station's Historical Temperature Data</h2>
+  <form
+    class="row"
+    [formGroup]="historicalWeatherForm"
+    (ngSubmit)="submitHistoricalWeatherForm()"
+  >
+    <mat-form-field class="col-sm-3" appearance="fill">
+      <mat-label>Start Date: </mat-label>
+      <input
+        matInput
+        name="startDate"
+        type="date"
+        formControlName="startDate"
+      />
+    </mat-form-field>
+    <mat-form-field class="col-sm-3" appearance="fill">
+      <mat-label>End Date: </mat-label>
+      <input matInput name="endDate" type="date" formControlName="endDate" />
+    </mat-form-field>
+    <mat-form-field class="col-sm-3" appearance="fill">
+      <mat-label for="weatherType">Weather Type: </mat-label>
+      <mat-select name="weatherType" formControlName="weatherType">
+        <mat-option value="hourly">Hourly</mat-option>
+        <mat-option value="daily">Daily</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button type="submit" class="col-sm-3">
+      Get Weather
+    </button>
+  </form>
+</div>
+<mat-tab-group (selectedTabChange)="changeTab($event)" style='min-height:1000px'>
+  <mat-tab label="Table">
+    <mat-table [dataSource]="stations.selectedWeather" class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.date }} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="tavg">
+        <mat-header-cell *matHeaderCellDef>
+          Average Temperature (C)
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.tavg }} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="tmin">
+        <mat-header-cell *matHeaderCellDef>
+          Minimum Temperature (C)
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.tmin }} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="tmax">
+        <mat-header-cell *matHeaderCellDef>
+          Maximum Temperature
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.tmax }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </mat-tab>
+
+  <!-- <google-chart [type]="chartType" [data]="selectedWeatherGraph"></google-chart> -->
+  <mat-tab label="Average Temperature Graph">
+    <google-chart [data]="stations.weatherChart" ></google-chart>
+    <button mat-raised-button (click)="stations.weatherChart.component!.draw()">Redraw</button>
+    <button mat-raised-button (click)="changeChartType(stations.weatherChart)">Change Type</button>
+  </mat-tab>
+  <mat-tab label="Minimum Temperature Graph">
+    <google-chart [data]="stations.weatherChartLow"></google-chart>
+    <button mat-raised-button (click)="stations.weatherChartLow.component!.draw()">Redraw</button>
+    <button mat-raised-button (click)="changeChartType(stations.weatherChartLow)">Change Type</button>
+  </mat-tab>
+</mat-tab-group>
